@@ -34,13 +34,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push (latest) to GitHub Packages
+      - name: Push (latest) to GitHub Packages and Microsoft Container Registry
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:${{ github.sha }}
+          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:${{ github.sha }} 
           docker tag cs50/codespace:latest ghcr.io/cs50/codespace:latest
+          docker tag cs50/codespace:${{ github.sha }} mcr.microsoft.com/cs50/codespace:${{ github.sha }}
+          docker tag cs50/codespace:latest mcr.microsoft.com/cs50/codespace:latest
           docker push ghcr.io/cs50/codespace:${{ github.sha }}
           docker push ghcr.io/cs50/codespace:latest
+          docker push mcr.microsoft.com/cs50/codespace:${{ github.sha }}
+          docker push mcr.microsoft.com/cs50/codespace:latest
 
       - name: Tag main as latest
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -65,8 +69,10 @@ jobs:
               })
             }
 
-      - name: Push (develop) to GitHub Packages
+      - name: Push (develop) to GitHub Packages and Microsoft Container Registry
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: |
           docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:develop
+          docker tag cs50/codespace:${{ github.sha }} mcr.microsoft.com/cs50/codespace:develop
           docker push ghcr.io/cs50/codespace:develop
+          docker push mcr.microsoft.com/cs50/codespace:develop
