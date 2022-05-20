@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Log into Azure Container Registry
-      - uses: azure/docker-login@v1
+        uses: azure/docker-login@v1
         with:
           login-server: cs50dev.azurecr.io
           username: ${{ secrets.ACR_USERNAME }}
